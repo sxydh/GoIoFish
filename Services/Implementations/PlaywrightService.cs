@@ -24,6 +24,7 @@ namespace GooFish.Services.Implementations
                 {
                     Headless = false,
                     Args = new[] { "--start-maximized", "--auto-open-devtools-for-tabs" },
+                    ExecutablePath = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
                     ViewportSize = ViewportSize.NoViewport,
                     IgnoreHTTPSErrors = true
                 });

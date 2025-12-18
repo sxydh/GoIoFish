@@ -1,4 +1,6 @@
-﻿using GooFish.Services.Implementations;
+﻿using GoIoFish.Services.Implementations;
+using GoIoFish.Services.Interfaces;
+using GooFish.Services.Implementations;
 using GooFish.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -27,8 +29,11 @@ namespace GoIoFish
             services.AddSingleton<IPlaywrightService, PlaywrightService>(sp =>
                 new PlaywrightService(page => Task.CompletedTask)
             );
+            services.AddSingleton<ILoginService, LoginService>();
 
             _serviceProvider = services.BuildServiceProvider();
+            _serviceProvider.GetRequiredService<ILoginService>();
+
             var mainWindow = new MainWindow();
             mainWindow.Show();
         }

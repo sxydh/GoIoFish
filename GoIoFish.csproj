@@ -98,7 +98,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\Implementations\LoginService.cs" />
     <Compile Include="Services\Implementations\PlaywrightService.cs" />
+    <Compile Include="Services\Interfaces\ILoginService.cs" />
     <Compile Include="Services\Interfaces\IPlaywrightService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
