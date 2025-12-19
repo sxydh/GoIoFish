@@ -1,11 +1,13 @@
 ﻿using Microsoft.Playwright;
 using System;
+using System.Threading.Tasks;
 
-namespace GooFish.Services.Interfaces
+namespace GoIoFish.Services.Interfaces
 {
-    public interface IPlaywrightService : IDisposable
+    public interface IPlaywrightService : IAsyncDisposable
     {
 
+        Task InitAsync();
         IPage GetPage();
 
     }

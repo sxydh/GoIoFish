@@ -1,4 +1,5 @@
-﻿using GoIoFish.Services.Interfaces;
+﻿using GoIoFish.Services.Implementations;
+using GoIoFish.Services.Interfaces;
 using GoIoFish.ViewModels;
 using GoIoFish.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,18 +13,37 @@ namespace GoIoFish
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(IServiceProvider serviceProvider)
+
+        public MainWindow()
         {
             InitializeComponent();
 
-            var frameProvider = serviceProvider.GetRequiredService<IFrameProvider>();
-            frameProvider.SetFrame(MainFrame);
+            // 注册 Pages
+            var services = new ServiceCollection();
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<LoginPage>();
+            services.AddTransient<LoginViewModel>();
+            services.AddTransient<HomePage>();
+            services.AddTransient<HomeViewModel>();
 
-            var mainVm = serviceProvider.GetRequiredService<MainViewModel>();
-            DataContext = mainVm;
+            // 注册 Services
+            services.AddSingleton<INavigationService>(sp =>
+            {
+                return new NavigationService(MainFrame, sp);
+            });
+            services.AddSingleton<ILoginService, LoginService>();
+            services.AddSingleton<IPlaywrightService, PlaywrightService>();
 
-            var navService = serviceProvider.GetRequiredService<INavigationService>();
-            navService.NavigateTo<LoginPage>();
+            // 就绪
+            var serviceProvider = services.BuildServiceProvider();
+            DataContext = serviceProvider.GetRequiredService<MainViewModel>();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            Loaded += (sender, args) =>
+            {
+                var navigationService = serviceProvider.GetRequiredService<INavigationService>();
+                navigationService.NavigateTo<LoginPage>();
+            };
+
         }
     }
 }

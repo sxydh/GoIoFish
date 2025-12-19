@@ -1,6 +1,4 @@
 ﻿using GoIoFish.Services.Interfaces;
-using GooFish.Services.Interfaces;
-using System;
 using System.Threading.Tasks;
 
 namespace GoIoFish.Services.Implementations
@@ -14,8 +12,12 @@ namespace GoIoFish.Services.Implementations
         {
             _playwrightService = playwrightService;
         }
-     
-        public async Task Login()
+
+        public async Task InitAsync() {
+            await _playwrightService.InitAsync();
+        }
+
+        public async Task LoginAsync()
         {
             var page = _playwrightService.GetPage();
             await page.GotoAsync("https://www.bing.com");

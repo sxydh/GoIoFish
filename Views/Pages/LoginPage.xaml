@@ -8,10 +8,21 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LoginPage">
 
-    <Grid>
-        <Button Content="登录"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Command="{Binding LoginCommand}"/>
+    <Grid x:Name="LoadingOverlay" 
+          Background="White"
+          Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <TextBlock Text="正在初始化..." 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Center"
+               FontSize="18">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <!-- 可选：加个旋转动画 -->
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
 </Page>

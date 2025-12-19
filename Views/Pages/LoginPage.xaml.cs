@@ -13,6 +13,11 @@ namespace GoIoFish.Views.Pages
             InitializeComponent();
 
             DataContext = loginViewModel;
+            Loaded += async (sender, args) =>
+            {
+                await loginViewModel.InitAsync();
+            };
         }
+
     }
 }
