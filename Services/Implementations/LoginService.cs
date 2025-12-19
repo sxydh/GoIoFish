@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GoIoFish.Services.Implementations
 {
-    internal class LoginService : ILoginService
+    public class LoginService : ILoginService
     {
 
         private readonly IPlaywrightService _playwrightService;
@@ -15,9 +15,10 @@ namespace GoIoFish.Services.Implementations
             _playwrightService = playwrightService;
         }
      
-        public Task Login()
+        public async Task Login()
         {
-            throw new NotImplementedException();
+            var page = _playwrightService.GetPage();
+            await page.GotoAsync("https://www.bing.com");
         }
 
     }

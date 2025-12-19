@@ -2,7 +2,7 @@
 
 namespace GoIoFish.Services.Interfaces
 {
-    internal interface INavigationService
+    public interface INavigationService
     {
 
         void NavigateTo<T>(object parameter = null) where T : Page;

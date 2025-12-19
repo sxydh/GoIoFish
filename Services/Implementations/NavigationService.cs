@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace GoIoFish.Services.Implementations
 {
-    internal class NavigationService : INavigationService
+    public class NavigationService : INavigationService
     {
 
         private readonly Frame _frame;

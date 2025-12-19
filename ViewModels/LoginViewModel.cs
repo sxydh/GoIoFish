@@ -4,11 +4,12 @@ using System.Windows.Input;
 
 namespace GoIoFish.ViewModels
 {
-    internal class LoginViewModel
+    public class LoginViewModel
     {
 
-        public LoginViewModel(INavigationService navigationService) {
-            LoginCommand = new RelayCommand(() => navigationService.NavigateTo<MainWindow, MainViewModel>());
+        public LoginViewModel(INavigationService navigationService)
+        {
+            LoginCommand = new RelayCommand(() => { });
         }
 
         public ICommand LoginCommand { get; }

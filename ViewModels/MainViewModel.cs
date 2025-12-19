@@ -1,6 +1,6 @@
 ﻿namespace GoIoFish.ViewModels
 {
-    internal class MainViewModel
+    public class MainViewModel
     {
     }
 }

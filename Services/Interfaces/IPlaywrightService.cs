@@ -3,7 +3,7 @@ using System;
 
 namespace GooFish.Services.Interfaces
 {
-    internal interface IPlaywrightService : IDisposable
+    public interface IPlaywrightService : IDisposable
     {
 
         IPage GetPage();

@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace GoIoFish.Helpers
 {
-    internal class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
 
         private readonly Action _execute;

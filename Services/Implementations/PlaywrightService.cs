@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GooFish.Services.Implementations
 {
-    internal class PlaywrightService : IPlaywrightService
+    public class PlaywrightService : IPlaywrightService
     {
 
         private IPage _page;
@@ -49,10 +49,7 @@ namespace GooFish.Services.Implementations
                 try
                 {
                     Unavailable?.Invoke();
-                    if (_page != null)
-                    {
-                        await _page.Context.Browser.CloseAsync();
-                    }
+                    await _page?.Context.Browser.CloseAsync();
                 }
                 catch {
                 }

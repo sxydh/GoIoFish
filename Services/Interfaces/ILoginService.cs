@@ -2,7 +2,7 @@
 
 namespace GoIoFish.Services.Interfaces
 {
-    internal interface ILoginService
+    public interface ILoginService
     {
 
         Task Login();
