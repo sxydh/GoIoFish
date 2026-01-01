@@ -83,11 +83,11 @@ namespace GoIoFish.Services.Implementations
 
         private async Task InitBrowserAsync()
         {
-            await ExUtil.SafeExeAsync(() => _page.CloseAsync());
-            await ExUtil.SafeExeAsync(() => _context.CloseAsync());
-            await ExUtil.SafeExeAsync(() => _browser.CloseAsync());
+            await ExUtil.SafeExecAsync(() => _page.CloseAsync());
+            await ExUtil.SafeExecAsync(() => _context.CloseAsync());
+            await ExUtil.SafeExecAsync(() => _browser.CloseAsync());
             var playwright = _playwright;
-            ExUtil.SafeExe(() => playwright.Dispose());
+            ExUtil.SafeExec(() => playwright.Dispose());
             await Task.Delay(3000);
 
             _playwright = await Playwright.CreateAsync();
@@ -141,14 +141,14 @@ namespace GoIoFish.Services.Implementations
 
         public async ValueTask DisposeAsync()
         {
-            ExUtil.SafeExe(() => _msgQueue.CompleteAdding());
-            ExUtil.SafeExe(() => _msgQueueCts.Cancel());
+            ExUtil.SafeExec(() => _msgQueue.CompleteAdding());
+            ExUtil.SafeExec(() => _msgQueueCts.Cancel());
 
-            await ExUtil.SafeExeAsync(() => _page.CloseAsync());
-            await ExUtil.SafeExeAsync(() => _context.CloseAsync());
-            await ExUtil.SafeExeAsync(() => _browser.CloseAsync());
+            await ExUtil.SafeExecAsync(() => _page.CloseAsync());
+            await ExUtil.SafeExecAsync(() => _context.CloseAsync());
+            await ExUtil.SafeExecAsync(() => _browser.CloseAsync());
             var playwright = _playwright;
-            ExUtil.SafeExe(() => playwright.Dispose());
+            ExUtil.SafeExec(() => playwright.Dispose());
         }
 
         private sealed class ActorMessage
