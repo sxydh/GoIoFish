@@ -40,7 +40,6 @@ namespace GoIoFish.ViewModels
         public async Task InitAsync()
         {
             IsLoading = true;
-            await _loginService.InitAsync();
             await _loginService.LoginAsync();
             IsLoading = false;
         }
