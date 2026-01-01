@@ -5,8 +5,7 @@ namespace GoIoFish.Services.Interfaces
     public interface ILoginService
     {
 
-        Task InitAsync();
-        Task LoginAsync();
+        Task<bool> LoginAsync();
 
     }
 }
