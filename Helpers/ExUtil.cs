@@ -5,27 +5,27 @@ namespace GoIoFish.Helpers
 {
     public static class ExUtil
     {
-        public static void SafeExec(Action action)
+        public static void SafeExec(Action action, bool isThrow = false, string msg = null)
         {
-            try
+            SafeExecAsync(() =>
             {
                 action();
-            }
-            catch
-            {
-                // ignored
-            }
+                return Task.CompletedTask;
+            }, isThrow, msg).Wait();
         }
 
-        public static async Task SafeExecAsync(Func<Task> asyncAction)
+        public static async Task SafeExecAsync(Func<Task> asyncAction, bool isThrow = false, string msg = null)
         {
             try
             {
                 await asyncAction();
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                if (isThrow)
+                {
+                    throw new Exception(msg ?? e.Message, e);
+                }
             }
         }
     }
