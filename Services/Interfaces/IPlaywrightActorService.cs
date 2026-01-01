@@ -6,8 +6,7 @@ namespace GoIoFish.Services.Interfaces
 {
     public interface IPlaywrightActorService : IAsyncDisposable
     {
-        Task InitAsync();
         Task EnqueueAsync(Func<IPage, Task> action);
-        bool IsAvailable { get; }
+        Task<bool> InitAsync(Func<IPage, Task> action);
     }
 }
