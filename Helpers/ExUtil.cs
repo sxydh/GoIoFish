@@ -5,7 +5,7 @@ namespace GoIoFish.Helpers
 {
     public static class ExUtil
     {
-        public static void SafeExe(Action action)
+        public static void SafeExec(Action action)
         {
             try
             {
@@ -17,7 +17,7 @@ namespace GoIoFish.Helpers
             }
         }
 
-        public static async Task SafeExeAsync(Func<Task> asyncAction)
+        public static async Task SafeExecAsync(Func<Task> asyncAction)
         {
             try
             {
