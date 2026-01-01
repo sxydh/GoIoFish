@@ -27,12 +27,9 @@ namespace GoIoFish
             services.AddTransient<HomeViewModel>();
 
             // 注册 Services
-            services.AddSingleton<INavigationService>(sp =>
-            {
-                return new NavigationService(MainFrame, sp);
-            });
+            services.AddSingleton<INavigationService>(sp => new NavigationService(MainFrame, sp));
             services.AddSingleton<ILoginService, LoginService>();
-            services.AddSingleton<IPlaywrightService, PlaywrightService>();
+            services.AddSingleton<IPlaywrightActorService, PlaywrightActorService>();
 
             // 就绪
             var serviceProvider = services.BuildServiceProvider();
