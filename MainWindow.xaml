@@ -19,8 +19,7 @@
                  Name="LogListBox"
                  ItemsSource="{Binding Logs}" d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
                  FontFamily="Consolas"
-                 FontSize="12"
-                 VerticalAlignment="Bottom">
+                 FontSize="12">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="logging:LogItem">
                     <TextBlock Text="{Binding Message}">
