@@ -26,19 +26,14 @@ namespace GoIoFish.Services.Implementations
                 await page.WaitForVisibleAsync("//div[text()='登录']", msg: "进入首页超时");
                 await Task.Delay(3000);
 
-                Log.Info("获取登录二维码...");
-                await page.ClickAsync("//div[text()='登录']", msg: "点击登录超时");
-                var qrCodeFrame = await page.GetFrameAsync("//iframe[@id='alibaba-login-box']", timeout: 6000, msg: "获取登录二维码框架超时");
-                const string qrCodeSelector = "//div[@id='qrcode-img']/canvas";
-                await qrCodeFrame.WaitForAsync(qrCodeSelector, timeout: 6000, msg: "获取登录二维码超时");
-                var qrCodeCanvas = await qrCodeFrame.QuerySelectorAsync(qrCodeSelector) ?? throw new Exception("获取登录二维码异常");
-                var qrCodeCanvasBuffer = await qrCodeCanvas.ScreenshotAsync();
-                var qrCodeBase64 = Convert.ToBase64String(qrCodeCanvasBuffer);
-                Log.Info($"获得登录二维码：{qrCodeBase64}");
-                progress.Report(new LoginProgressMsg(LoginState.QrCodeReady, qrCodeBase64));
+                const string personalSelector = "//a[contains(@href, 'https://www.goofish.com/personal')]";
+                var personalCount = await page.Locator(personalSelector).CountAsync();
+                if (personalCount == 0)
+                {
+                    Log.Info("扫码登录...");
+                    await page.WaitForAsync(personalSelector, timeout: 240000, isThrow: true, msg: "扫码登录超时");
+                }
 
-                Log.Info("等待扫码...");
-                await page.WaitForAsync("//a[contains(@href, 'https://www.goofish.com/personal')]", timeout: 120000, isThrow: true, msg: "扫码超时");
                 Log.Info("登录成功");
             });
         }
