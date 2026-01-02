@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Specialized;
+using System.Windows;
 using GoIoFish.Services.Implementations;
 using GoIoFish.Services.Interfaces;
 using GoIoFish.ViewModels;
@@ -20,7 +22,7 @@ namespace GoIoFish
             InitializeComponent();
 
             // 注册 Pages
-            Log.Debug("注册 Pages...");
+            Log.Info("注册 Pages...");
             var services = new ServiceCollection();
             services.AddTransient<MainViewModel>();
             services.AddTransient<LoginPage>();
@@ -29,21 +31,31 @@ namespace GoIoFish
             services.AddTransient<HomeViewModel>();
 
             // 注册 Services
-            Log.Debug("注册 Services...");
+            Log.Info("注册 Services...");
             services.AddSingleton<INavigationService>(sp => new NavigationService(MainFrame, sp));
             services.AddSingleton<ILoginService, LoginService>();
             services.AddSingleton<IPlaywrightActorService, PlaywrightActorService>();
 
             // 就绪
             var serviceProvider = services.BuildServiceProvider();
-            DataContext = serviceProvider.GetRequiredService<MainViewModel>();
+            var mainViewModel = serviceProvider.GetRequiredService<MainViewModel>();
+            DataContext = mainViewModel;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Loaded += (sender, args) =>
             {
-                Log.Debug("MainWindow loaded...");
                 var navigationService = serviceProvider.GetRequiredService<INavigationService>();
                 navigationService.NavigateTo<LoginPage>();
+                mainViewModel.Logs.CollectionChanged += Logs_CollectionChanged;
             };
+        }
+        
+        private void Logs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (LogListBox.Items.Count > 0)
+                    LogListBox.ScrollIntoView(LogListBox.Items[LogListBox.Items.Count - 1]);
+            }));
         }
     }
 }

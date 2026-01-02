@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System;
+using NLog;
 using NLog.Targets;
 
 namespace GoIoFish.Logging
@@ -9,7 +10,7 @@ namespace GoIoFish.Logging
         protected override void Write(LogEventInfo logEvent)
         {
             var msg = Layout.Render(logEvent);
-            UiLogStore.Add(msg.Substring(0, 100), logEvent.Level.Name);
+            UiLogStore.Add(msg.Substring(0, Math.Min(300, msg.Length)), logEvent.Level.Name);
         }
     }
 }

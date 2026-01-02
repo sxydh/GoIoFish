@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using GoIoFish.Helpers;
 using GoIoFish.Services.Interfaces;
 using Microsoft.Playwright;
+using NLog;
 
 namespace GoIoFish.Services.Implementations
 {
     public class PlaywrightActorService : IPlaywrightActorService
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         private IPlaywright _playwright;
         private IBrowserContext _context;
         private IBrowser _browser;
@@ -25,7 +28,10 @@ namespace GoIoFish.Services.Implementations
         public Task EnqueueAsync(Func<IPage, Task> action)
         {
             if (_msgQueue.IsAddingCompleted)
+            {
+                Log.Warn("服务已终止");
                 throw new InvalidOperationException("Actor stopped");
+            }
 
             var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             _msgQueue.Add(new ActorMessage(action, tcs));
@@ -52,19 +58,21 @@ namespace GoIoFish.Services.Implementations
         {
             try
             {
+                Log.Info("初始化...");
                 await InitBrowserAsync();
                 var isCallbackOk = false;
-                for (var i = 0; i < 3; i++)
+                for (var i = 3; i > 0; i--)
                 {
                     try
                     {
+                        Log.Info("执行初始化回调...");
                         await initCallback(_page);
                         isCallbackOk = true;
                         break;
                     }
-                    catch
+                    catch(Exception e)
                     {
-                        // ignored
+                        Log.Error(e, "执行初始化回调异常，剩余重试次数：{0}", i - 1);
                     }
                 }
 
@@ -73,9 +81,9 @@ namespace GoIoFish.Services.Implementations
                     return false;
                 }
             }
-            catch
+            catch(Exception e)
             {
-                // ignored
+                Log.Error(e, "初始化异常");
             }
 
             return true;
@@ -94,6 +102,7 @@ namespace GoIoFish.Services.Implementations
             var userDataDir = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "GoIoFish", "Google", "Chrome", "User Data");
+            Log.Info("启动浏览器，数据目录：{0}", userDataDir);
             _context = await _playwright.Chromium.LaunchPersistentContextAsync(
                 userDataDir,
                 new BrowserTypeLaunchPersistentContextOptions
@@ -112,6 +121,7 @@ namespace GoIoFish.Services.Implementations
         {
             try
             {
+                Log.Info("执行任务循环...");
                 foreach (var msg in _msgQueue.GetConsumingEnumerable(_msgQueueCts.Token))
                 {
                     try
@@ -120,6 +130,7 @@ namespace GoIoFish.Services.Implementations
                     }
                     catch (Exception e)
                     {
+                        Log.Error(e, "执行任务异常");
                         msg.Fail(e);
                         if (e.Message.Contains("Target page, context or browser has been closed"))
                         {
@@ -133,14 +144,15 @@ namespace GoIoFish.Services.Implementations
                     }
                 }
             }
-            catch
+            catch(Exception e)
             {
-                // ignored
+                Log.Error(e, "执行任务循环异常");
             }
         }
 
         public async ValueTask DisposeAsync()
         {
+            Log.Info("释放资源...");
             ExUtil.SafeExec(() => _msgQueue.CompleteAdding());
             ExUtil.SafeExec(() => _msgQueueCts.Cancel());
 
