@@ -10,7 +10,7 @@ namespace GoIoFish.Logging
         protected override void Write(LogEventInfo logEvent)
         {
             var msg = Layout.Render(logEvent);
-            Console.WriteLine(msg);
+            UiLogStore.Add(msg);
         }
     }
 }
