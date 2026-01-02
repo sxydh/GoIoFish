@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:logging="clr-namespace:GoIoFish.Logging"
+        xmlns:viewModels="clr-namespace:GoIoFish.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -11,7 +12,7 @@
                Margin="0,30,0,0"
                NavigationUIVisibility="Hidden" />
 
-        <ListBox ItemsSource="{Binding Logs}"
+        <ListBox ItemsSource="{Binding Logs}" d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
                  FontFamily="Consolas"
                  FontSize="12"
                  VerticalAlignment="Bottom"
