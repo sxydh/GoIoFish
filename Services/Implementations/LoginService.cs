@@ -36,8 +36,11 @@ namespace GoIoFish.Services.Implementations
                 var qrCodeBase64 = Convert.ToBase64String(qrCodeCanvasBuffer);
                 Log.Info($"获得登录二维码：{qrCodeBase64}");
                 progress.Report(new LoginProgressMsg(LoginState.QrCodeReady, qrCodeBase64));
+
+                Log.Info("等待扫码...");
+                await page.WaitForAsync("//a[contains(@href, 'https://www.goofish.com/personal')]", timeout: 120000, isThrow: true, msg: "扫码超时");
+                Log.Info("登录成功");
             });
         }
-        
     }
 }
