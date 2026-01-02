@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace GoIoFish.Helpers
+namespace GoIoFish.Views.Converters
 {
     public class EnumToVisibilityConverter : IValueConverter
     {

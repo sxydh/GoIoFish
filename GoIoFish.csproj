@@ -102,7 +102,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\EnumToVisibilityConverter.cs" />
     <Compile Include="Helpers\ExUtil.cs" />
     <Compile Include="Helpers\PageUtil.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
@@ -119,6 +118,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="Views\Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
