@@ -8,16 +8,19 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Frame x:Name="MainFrame"
-               Margin="0,30,0,0"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="150" />
+        </Grid.RowDefinitions>
+        <Frame Grid.Row="0"
+               x:Name="MainFrame"
                NavigationUIVisibility="Hidden" />
-
-        <ListBox ItemsSource="{Binding Logs}" d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
+        <ListBox Grid.Row="1"
+                 Name="LogListBox"
+                 ItemsSource="{Binding Logs}" d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
                  FontFamily="Consolas"
                  FontSize="12"
-                 VerticalAlignment="Bottom"
-                 Height="150"
-                 Name="LogListBox">
+                 VerticalAlignment="Bottom">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="logging:LogItem">
                     <TextBlock Text="{Binding Message}">
