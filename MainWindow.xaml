@@ -3,12 +3,39 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GoIoFish"
+        xmlns:logging="clr-namespace:GoIoFish.Logging"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Frame x:Name="MainFrame"
                Margin="0,30,0,0"
-               NavigationUIVisibility="Hidden"/>
+               NavigationUIVisibility="Hidden" />
+
+        <ListBox ItemsSource="{Binding Logs}"
+                 FontFamily="Consolas"
+                 FontSize="12"
+                 VerticalAlignment="Bottom"
+                 Height="150"
+                 Name="LogListBox">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="logging:LogItem">
+                    <TextBlock Text="{Binding Message}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Level}" Value="Error">
+                                        <Setter Property="Foreground" Value="Red" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Level}" Value="Warn">
+                                        <Setter Property="Foreground" Value="Orange" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>
