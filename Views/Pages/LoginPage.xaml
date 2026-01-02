@@ -14,11 +14,5 @@
                     Visibility="{Binding State, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:LoginState.LoadingPage}}">
             <ProgressBar IsIndeterminate="True" Width="100" Height="20" />
         </StackPanel>
-
-        <Border BorderBrush="Gray" BorderThickness="1" Width="200" Height="200"
-                HorizontalAlignment="Center" VerticalAlignment="Center"
-                Visibility="{Binding State, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:LoginState.QrCodeReady}}">
-            <Image Source="{Binding QrCodeImage}" Stretch="Uniform" />
-        </Border>
     </Grid>
 </Page>
