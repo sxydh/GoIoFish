@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using GoIoFish.Models;
 using GoIoFish.Services.Interfaces;
 
 namespace GoIoFish.ViewModels
@@ -7,12 +9,19 @@ namespace GoIoFish.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly ILoginService _loginService;
-        private bool _isLoading;
+        private LoginState _state;
+        private string _qrCode;
 
-        public bool IsLoading
+        public LoginState State
         {
-            get => _isLoading;
-            set => SetProperty(ref _isLoading, value);
+            get => _state;
+            set => SetProperty(ref _state, value);
+        }
+
+        public string QrCode
+        {
+            get => _qrCode;
+            set => SetProperty(ref _qrCode, value);
         }
 
         public LoginViewModel(INavigationService navigationService, ILoginService loginService)
@@ -23,9 +32,18 @@ namespace GoIoFish.ViewModels
 
         public async Task InitAsync()
         {
-            IsLoading = true;
-            await _loginService.LoginAsync();
-            IsLoading = false;
+            State = LoginState.LoadingPage;
+            await _loginService.LoginAsync(new Progress<LoginProgressMsg>(e =>
+            {
+                State = e.State;
+                switch (e.State)
+                {
+                    case LoginState.QrCodeReady:
+                        QrCode = e.Body;
+                        break;
+                }
+            }));
+            State = LoginState.LoginSucceeded;
         }
     }
 }
