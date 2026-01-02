@@ -105,6 +105,7 @@
     <Compile Include="Helpers\ExUtil.cs" />
     <Compile Include="Helpers\PageUtil.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Logging\UiTarget.cs" />
     <Compile Include="Services\Implementations\LoginService.cs" />
     <Compile Include="Services\Implementations\NavigationService.cs" />
     <Compile Include="Services\Implementations\PlaywrightActorService.cs" />
