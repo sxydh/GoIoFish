@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using GoIoFish.Models;
+﻿using System.Threading.Tasks;
 
 namespace GoIoFish.Services.Interfaces
 {
     public interface ILoginService
     {
-        Task<bool> LoginAsync(IProgress<LoginProgressMsg> progress);
+        Task<bool> LoginAsync();
     }
 }

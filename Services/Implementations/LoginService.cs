@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GoIoFish.Helpers;
-using GoIoFish.Models;
 using GoIoFish.Services.Interfaces;
 using NLog;
 
@@ -17,7 +15,7 @@ namespace GoIoFish.Services.Implementations
             _playwrightActorService = playwrightActorService;
         }
 
-        public async Task<bool> LoginAsync(IProgress<LoginProgressMsg> progress)
+        public async Task<bool> LoginAsync()
         {
             return await _playwrightActorService.InitAsync(initCallback: async page =>
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GoIoFish.Models;
 using GoIoFish.Services.Interfaces;
 using GoIoFish.Views.Pages;
@@ -27,7 +26,7 @@ namespace GoIoFish.ViewModels
         public async Task InitAsync()
         {
             State = LoginState.LoadingPage;
-            var isLoginOk = await _loginService.LoginAsync(new Progress<LoginProgressMsg>(e => { State = e.State; }));
+            var isLoginOk = await _loginService.LoginAsync();
             if (isLoginOk)
             {
                 State = LoginState.LoginSucceeded;
