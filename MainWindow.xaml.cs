@@ -41,6 +41,7 @@ namespace GoIoFish
             var mainViewModel = serviceProvider.GetRequiredService<MainViewModel>();
             DataContext = mainViewModel;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            Topmost = true;
             Loaded += (sender, args) =>
             {
                 var navigationService = serviceProvider.GetRequiredService<INavigationService>();

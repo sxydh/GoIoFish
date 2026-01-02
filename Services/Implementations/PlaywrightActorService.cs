@@ -80,13 +80,15 @@ namespace GoIoFish.Services.Implementations
                 {
                     return false;
                 }
+
+                return true;
             }
             catch(Exception e)
             {
                 Log.Error(e, "初始化异常");
             }
 
-            return true;
+            return false;
         }
 
         private async Task InitBrowserAsync()
@@ -107,8 +109,8 @@ namespace GoIoFish.Services.Implementations
                 userDataDir,
                 new BrowserTypeLaunchPersistentContextOptions
                 {
-                    Headless = !Debugger.IsAttached,
-                    Args = new[] { "--start-maximized", "--auto-open-devtools-for-tabs" },
+                    Headless = false,
+                    Args = new[] { "--start-maximized" },
                     ExecutablePath = @"C:\Program Files\Google\Chrome\Application\chrome.exe",
                     ViewportSize = ViewportSize.NoViewport,
                     IgnoreHTTPSErrors = true
