@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,12 +19,12 @@ namespace GoIoFish.Services.Implementations
         private IBrowser _browser;
         private IPage _page;
 
-        private readonly BlockingCollection<ActorMessage> _msgQueue = new BlockingCollection<ActorMessage>(100);
+        private readonly BlockingCollection<IActorMessage> _msgQueue = new BlockingCollection<IActorMessage>(100);
         private readonly CancellationTokenSource _msgQueueCts = new CancellationTokenSource();
         private int _initFlag;
         private Func<IPage, Task> _initCallback;
 
-        public Task EnqueueAsync(Func<IPage, Task> action)
+        public Task<T> EnqueueAsync<T>(Func<IPage, Task<T>> action)
         {
             if (_msgQueue.IsAddingCompleted)
             {
@@ -33,8 +32,8 @@ namespace GoIoFish.Services.Implementations
                 throw new InvalidOperationException("Actor stopped");
             }
 
-            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            _msgQueue.Add(new ActorMessage(action, tcs));
+            var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
+            _msgQueue.Add(new ActorMessage<T>(action, tcs));
             return tcs.Task;
         }
 
@@ -164,13 +163,19 @@ namespace GoIoFish.Services.Implementations
             var playwright = _playwright;
             ExUtil.SafeExec(() => playwright.Dispose());
         }
-
-        private sealed class ActorMessage
+        
+        private interface IActorMessage
         {
-            private readonly Func<IPage, Task> _action;
-            private readonly TaskCompletionSource<bool> _tcs;
+            Task ExecuteAsync(IPage page);
+            void Fail(Exception ex);
+        }
 
-            public ActorMessage(Func<IPage, Task> action, TaskCompletionSource<bool> tcs)
+        private sealed class ActorMessage<T> : IActorMessage
+        {
+            private readonly Func<IPage, Task<T>> _action;
+            private readonly TaskCompletionSource<T> _tcs;
+
+            public ActorMessage(Func<IPage, Task<T>> action, TaskCompletionSource<T> tcs)
             {
                 _action = action;
                 _tcs = tcs;
@@ -178,8 +183,8 @@ namespace GoIoFish.Services.Implementations
 
             public async Task ExecuteAsync(IPage page)
             {
-                await _action(page);
-                _tcs.TrySetResult(true);
+                var ret = await _action(page);
+                _tcs.TrySetResult(ret);
             }
 
             public void Fail(Exception ex) => _tcs.TrySetException(ex);
