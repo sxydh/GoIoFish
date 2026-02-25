@@ -2,7 +2,7 @@
 
 namespace GoIoFish.Services.Interfaces
 {
-    public interface ILoginService
+    public interface IGooFishService
     {
         Task<bool> LoginAsync();
     }

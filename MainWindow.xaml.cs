@@ -33,7 +33,7 @@ namespace GoIoFish
             // 注册 Services
             Log.Info("注册 Services...");
             services.AddSingleton<INavigationService>(sp => new NavigationService(MainFrame, sp));
-            services.AddSingleton<ILoginService, LoginService>();
+            services.AddSingleton<IGooFishService, GooFishService>();
             services.AddSingleton<IPlaywrightActorService, PlaywrightActorService>();
 
             // 就绪

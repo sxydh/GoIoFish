@@ -109,10 +109,10 @@
     <Compile Include="Logging\UiLogStore.cs" />
     <Compile Include="Logging\UiTarget.cs" />
     <Compile Include="Models\LoginState.cs" />
-    <Compile Include="Services\Implementations\LoginService.cs" />
+    <Compile Include="Services\Implementations\GooFishService.cs" />
     <Compile Include="Services\Implementations\NavigationService.cs" />
     <Compile Include="Services\Implementations\PlaywrightActorService.cs" />
-    <Compile Include="Services\Interfaces\ILoginService.cs" />
+    <Compile Include="Services\Interfaces\IGooFishService.cs" />
     <Compile Include="Services\Interfaces\INavigationService.cs" />
     <Compile Include="Services\Interfaces\IPlaywrightActorService.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

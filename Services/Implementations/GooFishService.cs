@@ -5,12 +5,12 @@ using NLog;
 
 namespace GoIoFish.Services.Implementations
 {
-    public class LoginService : ILoginService
+    public class GooFishService : IGooFishService
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private readonly IPlaywrightActorService _playwrightActorService;
 
-        public LoginService(IPlaywrightActorService playwrightActorService)
+        public GooFishService(IPlaywrightActorService playwrightActorService)
         {
             _playwrightActorService = playwrightActorService;
         }
