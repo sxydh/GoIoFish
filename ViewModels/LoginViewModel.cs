@@ -8,7 +8,6 @@ namespace GoIoFish.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IGooFishService _gooFishService;
         private LoginState _state;
 
         public LoginState State
@@ -17,16 +16,15 @@ namespace GoIoFish.ViewModels
             set => SetProperty(ref _state, value);
         }
 
-        public LoginViewModel(INavigationService navigationService, IGooFishService gooFishService)
+        public LoginViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _gooFishService = gooFishService;
         }
 
-        public async Task InitAsync()
+        public async Task LoginAsync()
         {
             State = LoginState.LoadingPage;
-            var isLoginOk = await _gooFishService.LoginAsync();
+            var isLoginOk = await Task.FromResult(true);
             if (isLoginOk)
             {
                 State = LoginState.LoginSucceeded;

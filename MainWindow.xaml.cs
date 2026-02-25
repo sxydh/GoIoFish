@@ -34,7 +34,7 @@ namespace GoIoFish
             Log.Info("注册 Services...");
             services.AddSingleton<INavigationService>(sp => new NavigationService(MainFrame, sp));
             services.AddSingleton<IGooFishService, GooFishService>();
-            services.AddSingleton<IPlaywrightActorService, PlaywrightActorService>();
+            services.AddTransient<IPlaywrightActorService, PlaywrightActorService>();
 
             // 就绪
             var serviceProvider = services.BuildServiceProvider();
@@ -45,7 +45,7 @@ namespace GoIoFish
             Loaded += (sender, args) =>
             {
                 var navigationService = serviceProvider.GetRequiredService<INavigationService>();
-                navigationService.NavigateTo<LoginPage>();
+                navigationService.NavigateTo<HomePage>();
                 mainViewModel.Logs.CollectionChanged += Logs_CollectionChanged;
             };
         }
