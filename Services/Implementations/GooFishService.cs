@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using GoIoFish.Helpers;
 using GoIoFish.Models;
-using GoIoFish.Models.GooFish;
 using GoIoFish.Services.Interfaces;
 using Microsoft.Playwright;
 using NLog;
@@ -38,13 +37,13 @@ namespace GoIoFish.Services.Implementations
             Log.Info("登录成功");
         }
 
-        public async Task<PageResult<Product>> FetchProductPageAsync(ProductPageRequest request)
+        public async Task<PageResult<GooFishProduct>> FetchProductPageAsync(GooFishProductPageRequest request)
         {
             Log.Info("分页获取商品...");
             var ret = await _playwrightActorService.EnqueueAsync(async page =>
             {
                 await page.EvaluateAsync("");
-                return PageResult<Product>.Ok(1, 20, 100, new List<Product>());
+                return PageResult<GooFishProduct>.Ok(1, 20, 100, new List<GooFishProduct>());
             });
             return ret;
         }

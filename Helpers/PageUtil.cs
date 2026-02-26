@@ -8,7 +8,7 @@ namespace GoIoFish.Helpers
     {
         public static async Task GotoAsync(this IPage page, string url, long timeout = 60000, bool isThrow = true, string msg = null)
         {
-            await ExUtil.SafeExecAsync(
+            await ExecUtil.SafeExecAsync(
                 async () => await page.GotoAsync(url, new PageGotoOptions { Timeout = timeout }),
                 isThrow, msg);
         }
@@ -25,14 +25,14 @@ namespace GoIoFish.Helpers
 
         public static async Task WaitForAsync(this ILocator locator, WaitForSelectorState state = WaitForSelectorState.Attached, long timeout = 60000, bool isThrow = true, string msg = null)
         {
-            await ExUtil.SafeExecAsync(
+            await ExecUtil.SafeExecAsync(
                 async () => await locator.WaitForAsync(new LocatorWaitForOptions { State = state, Timeout = timeout }),
                 isThrow, msg);
         }
 
         public static async Task ClickAsync(this IPage page, string selector, long timeout = 6000, bool isThrow = true, string msg = null)
         {
-            await ExUtil.SafeExecAsync(
+            await ExecUtil.SafeExecAsync(
                 async () => await page.Locator(selector).ClickAsync(new LocatorClickOptions { Timeout = timeout }),
                 isThrow, msg);
         }
@@ -41,7 +41,7 @@ namespace GoIoFish.Helpers
         {
             await page.WaitForAsync(selector, timeout: timeout, isThrow: isThrow, msg: msg);
             await Task.Delay(1000);
-            return await ExUtil.SafeExecAsync(
+            return await ExecUtil.SafeExecAsync(
                 async () =>
                 {
                     var ele = await page.QuerySelectorAsync(selector) ?? throw new NullReferenceException();

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace GoIoFish.Helpers
 {
-    public static class ExUtil
+    public static class ExecUtil
     {
         public static void SafeExec(Action action, bool isThrow = false, string msg = null)
         {
